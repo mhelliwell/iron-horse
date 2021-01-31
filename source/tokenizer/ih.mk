@@ -1,0 +1,40 @@
+include $(IH_START)
+
+LOCAL_MODULE_NAME := tokenizer
+LOCAL_MODULE_TYPE := shared
+
+LOCAL_CC_SOURCE_FILES := tokenizer.cc
+
+LOCAL_USE_CPP17 := true
+
+
+LOCAL_EXPORTED_CCFLAGS := -I$(LOCAL_PATH)
+LOCAL_EXPORTED_LDFLAGS := -ltokenizer
+
+
+LOCAL_CONFIG_MODULES := includes
+LOCAL_SHARED_LIBRARIES := statemachine
+
+include $(IH_BUILD_SHARED)
+
+
+
+include $(IH_NEXT)
+
+LOCAL_MODULE_NAME := tokenizer
+LOCAL_MODULE_TYPE := static
+
+LOCAL_CC_SOURCE_FILES := tokenizer.cc
+
+LOCAL_USE_CPP17 := true
+
+
+LOCAL_EXPORTED_CCFLAGS := -I$(LOCAL_PATH)
+LOCAL_EXPORTED_LDFLAGS := -ltokenizer
+
+
+LOCAL_CONFIG_MODULES := includes
+LOCAL_SHARED_LIBRARIES := statemachine
+
+include $(IH_BUILD_STATIC)
+

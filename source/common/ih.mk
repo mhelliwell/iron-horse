@@ -1,0 +1,12 @@
+include $(IH_START)
+
+
+LOCAL_MODULE_NAME := includes
+LOCAL_MODULE_TYPE := config
+
+
+LOCAL_EXPORTED_CCFLAGS := -I$(LOCAL_PATH)
+
+
+include $(IH_BUILD_CONFIG)
+
