@@ -54,3 +54,42 @@ std::ostream & operator << (std::ostream &out, state_machine &sm)
 }
 
 
+bool state_machine::IsCompatible(state_t state, set<state_t>& group, map<state_t,int32_t>& bm, unordered_set<state_t> ac_st)
+{
+  if ((ac_st.find(state) == ac_st.end()) != (ac_st.find(*group.begin()) == ac_st.end())) return false;
+  for(state_t s : group)
+    if (s != state)
+      for(int32_t ch=0; ch<256; ++ch)
+        if (bm[state_table[state][ch]] != bm[state_table[s][ch]]) return false;
+  return true;
+}
+
+
+set<int32_t> state_machine::StepSet( int32_t ch, set<int32_t> &st )
+{
+  set<int32_t> s;
+  for(int32_t x : st) {
+    auto t = ExpandNfaNode(state_table[x][ch]);
+    s.insert(t.begin(), t.end());
+  }
+  return s;
+}
+
+set<int32_t> state_machine::ExpandNfaNode( state_t st )
+{
+  set<int32_t> s;
+  ExpandNfaNodeRecurse( st, s );
+  return s;
+}
+
+void state_machine::ExpandNfaNodeRecurse( state_t st, set<int32_t> &nodes )
+{
+  nodes.insert(st);
+  if ( epsilons.find(st) != epsilons.end() ) {
+    auto x=epsilons[st];
+    for(auto s : x) {
+      if ( nodes.find(s) == nodes.end() ) ExpandNfaNodeRecurse(s,nodes);
+    }
+  }
+}
+
