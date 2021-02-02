@@ -6,13 +6,11 @@ IH_BASE_PATH := $(shell pwd)/
 include build/basic_defs.mk
 
 
-#$(eval $(call gen_sym, TEST_SYMBOL, this_is_a_test))
-#$(info $(TEST_SYMBOL))
-
 build: PREBUILD_TARGETS BUILD_TARGETS POSTBUILD_TARGETS
 .PHONEY: build
 
 include $(IH_BASE_PATH)source/ih.mk
+
 
 
 PREBUILD_TARGETS:
@@ -31,38 +29,22 @@ PREBUILD_TARGETS: create_dirs
 
 
 
-########################
-#  old style is below  #
-########################
-
-#.PHONEY: all clean clobber rebuild
+.PHONEY: all clean clobber rebuild
 
 
-#CCFLAGS := -Wall -std=c++17
+clean:
+	@echo clean the project
+	@rm -rf results/obj
 
-
-#all: hsc
-
-#clean:
-#	rm -f *.o
 
 clobber:
+	@echo clobbering the project
 	@rm -f hsc
 	@rm -f *~
 	@rm -rf results
 
-#rebuild: clobber all
+rebuild_message:
+	@echo rebuilding...
 
-
-#hsc.cc:lex.h
-
-
-#OBJECTS := state_machine.o tokenizer.o lex.o
-
-
-#%.o : %.cc
-#	g++ -c $(CCFLAGS) $< -o $@
-
-#hsc: return.h hsc.cc tokenizer.h lex.h $(OBJECTS)
-#	g++ $(CCFLAGS) $(OBJECTS) hsc.cc -o hsc
+rebuild: clobber rebuild_message build
 
