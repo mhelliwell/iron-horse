@@ -54,6 +54,10 @@ std::ostream & operator << (std::ostream &out, state_machine &sm)
 }
 
 
+
+
+
+
 bool state_machine::IsCompatible(state_t state, set<state_t>& group, map<state_t,int32_t>& bm, unordered_set<state_t> ac_st)
 {
   if ((ac_st.find(state) == ac_st.end()) != (ac_st.find(*group.begin()) == ac_st.end())) return false;

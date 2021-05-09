@@ -1,4 +1,14 @@
-
+##############################################################################
+#                                                                            #
+#    III  RRRRR    OOO   N     N      H    H   OOO   RRRRR    SSSS  EEEEE    #
+#     I   R    R  O   O  NN    N      H    H  O   O  R    R  S      E        #
+#     I   R    R  O   O  N N   N      H    H  O   O  R    R  S      E        #
+#     I   RRRRR   O   O  N  N  N      HHHHHH  O   O  RRRRR    SSS   EEEE     #
+#     I   R   R   O   O  N   N N      H    H  O   O  R   R       S  E        #
+#     I   R    R  O   O  N    NN      H    H  O   O  R    R      S  E        #
+#    III  R    R   OOO   N     N      H    H   OOO   R    R  SSSS   EEEEE    #
+#                                                                            #
+##############################################################################
 
 
 #####################################
@@ -45,9 +55,9 @@ IH_GENERATE_SYMBOL := $(IH_BUILD_PATH)gensym.mk
 #####################################################
 
 # IH_BASE_PATH_SIZE is the number of directories
-# in the IH's root directory. This is useful, for
-# example, when converting an absolute path to a
-# path relative to the IH root directory.
+# in the path to IH's root directory. This is
+# useful, for example, when converting an absolute
+# path to a path relative to the IH root directory.
 IH_BASE_PATH_SIZE := $(words $(strip $(subst /, ,$(IH_BASE_PATH))))
 
 

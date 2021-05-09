@@ -207,9 +207,9 @@ public:
       }
     }
 
-    cout << "<begin DFA>\n";
-    cout << new_sm;
-    cout << "<end>\n";
+    //cout << "<begin DFA>\n";
+    //cout << new_sm;
+    //cout << "<end>\n";
 
     return new_sm;
   }
@@ -324,7 +324,6 @@ private:
   set<int32_t> ExpandNfaNode( state_t st );
   void ExpandNfaNodeRecurse( state_t st, set<int32_t> &nodes );
 
-  static const uint32_t ACCEPT_PROPERTY = 0x01;
   static const uint32_t SINK_REJECT_STATE = 0x01;
 
   typedef array<int32_t, 256> trans_row_t;
