@@ -10,6 +10,9 @@
 #include "tokenizer.h"
 
 
+using std::ifstream;
+
+
 class token_id
 {
 public:

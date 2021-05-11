@@ -9,30 +9,17 @@
 #include <cstdint>
 
 #include <iostream>
-#include <vector>
-#include <set>
-#include <unordered_set>
-#include <memory>
-#include <array>
 #include <string>
 #include <utility>
 #include <list>
 #include <deque>
-#include <queue>
-#include <fstream>
 #include <map>
 
 #include "state_machine.h"
 #include "return.h"
 
-using std::set;
-using std::unordered_set;
 using std::cout;
 using std::endl;
-using std::unique_ptr;
-using std::make_unique;
-using std::array;
-using std::vector;
 using std::string;
 using std::pair;
 using std::list;
@@ -40,8 +27,6 @@ using std::next;
 using std::prev;
 using std::map;
 using std::deque;
-using std::queue;
-using std::ifstream;
 
 
 

@@ -5,6 +5,7 @@
 #include <string>
 #include <list>
 #include <fstream>
+#include <memory>
 
 #include "return.h"
 #include "tokenizer.h"
@@ -16,7 +17,7 @@ using std::endl;
 using std::string;
 using std::list;
 using std::ifstream;
-
+using std::unique_ptr;
 
 
 
