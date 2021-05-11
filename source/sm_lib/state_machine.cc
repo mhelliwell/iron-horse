@@ -1,25 +1,10 @@
 
 
 #include <cstdint>
-
 #include <iostream>
-#include <vector>
-#include <set>
-#include <unordered_set>
-#include <memory>
-#include <array>
-#include <string>
-#include <utility>
-#include <list>
-#include <deque>
-#include <queue>
-#include <fstream>
-#include <map>
-
-#include "return.h"
-
 
 #include "state_machine.h"
+
 
 
 std::ostream & operator << (std::ostream &out, state_machine &sm)
@@ -52,7 +37,6 @@ std::ostream & operator << (std::ostream &out, state_machine &sm)
   }
   return out;
 }
-
 
 
 
