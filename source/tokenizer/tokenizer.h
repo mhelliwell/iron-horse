@@ -83,7 +83,9 @@ public:
   void SetTokenRegEx(string str, int32_t ident)
   {
     regex_tk_list_t  tokens;
-    cout << "regex: " << str << endl;
+    // cout << "regex: " << str << endl;
+
+    // cout << "^^^^^^^^00000" << endl;
 
     StringToRegexTokens(str, tokens, tokens.begin());
 
@@ -128,8 +130,9 @@ public:
 
 
 #if 0
+    int c1=0;
     for(auto x : tokens) {
-      cout << c++ << "  ";
+      cout << c1++ << "  ";
       if (x.second == REGEX_TOKEN_STRING)        cout << "         string: ";
       if (x.second == REGEX_TOKEN_LEFT_PAREN)    cout << "     Left Paren: ";
       if (x.second == REGEX_TOKEN_RIGHT_PAREN)   cout << "    Right Paren: ";
@@ -147,6 +150,9 @@ public:
     fsm::state_t final = sm.GetNewState();
     RecursiveConstructRegex(sm.StartState(),final,sm,tokens);
     sm.SetAccept(final);
+    //cout << "^^^^^^^^^^^^^" << endl;
+    //cout << sm;
+    //cout << "^^^^^^^^^^^^^" << endl;
     token_sensors.emplace_back(fsm_entry_t(sm.Nfa2Dfa().Optimize(),ident));
   }
 
@@ -173,86 +179,17 @@ public:
     StepAll(c);
   }
   
-#if 0
-  // This is a kludge until the regular expression parser is done
-  void SetTokenSpecialIdent(string str, int32_t ident)
-  {
-    state_machine sm;
-
-    if (str == "integer") {
-      fsm::state_t st  = sm.StartState();
-      fsm::state_t accept = sm.StartState();
-      for(auto c:"0123456789") {
-        sm.SetTransition(st,c,accept);
-        sm.SetTransition(accept,c,accept);
-      }
-      sm.SetAccept(accept);
-      token_sensors.emplace_back(fsm_entry_t(sm,ident));
-      return;
-    }
-    if (str == "identifier") {
-      fsm::state_t st  = sm.StartState();
-      fsm::state_t ac1 = sm.StartState();
-      fsm::state_t ac2 = sm.StartState();
-      for(auto c:"abcdefghijklmnopqrstuvwxyz_ABCDEFGHIJKLMNOPQRSTUVWXYZ") {
-        sm.SetTransition(st,c,ac1);
-        sm.SetTransition(ac1,c,ac2);
-        sm.SetTransition(ac2,c,ac2);
-      }
-      for(auto c:"0123456789") {
-        sm.SetTransition(ac1,c,ac2);
-        sm.SetTransition(ac2,c,ac2);
-      }
-      sm.SetAccept(ac1);
-      sm.SetAccept(ac2);
-      token_sensors.emplace_back(fsm_entry_t(sm,ident));
-      return;
-    }
-    if (str == "test") {
-      fsm::state_t st  = sm.StartState();
-      fsm::state_t s1  = sm.GetNewState();
-      fsm::state_t s2  = sm.GetNewState();
-      fsm::state_t s3  = sm.GetNewState();
-      fsm::state_t s4  = sm.GetNewState();
-      
-      fsm::state_t s5  = sm.GetNewState();
-      fsm::state_t s6  = sm.GetNewState();
-      fsm::state_t s7  = sm.GetNewState();
-      fsm::state_t s8  = sm.GetNewState();
-      fsm::state_t s9  = sm.GetNewState();
-      fsm::state_t s10  = sm.GetNewState();
-      
-      sm.SetEpsilon(st,s1);
-      sm.SetTransition(s1,'b',s2);
-      sm.SetEpsilon(s2,s3);
-      sm.SetEpsilon(s3,s2);
-      sm.SetTransition(s2,'a',s3);
-      sm.SetTransition(s3,'b',s4);
-      sm.SetAccept(s4);
-      
-      sm.SetTransition(st,'c',s5);
-      sm.SetTransition(s5,'c',s6);
-      sm.SetTransition(s6,'c',s7);
-      sm.SetTransition(s7,'b',s8);
-      sm.SetEpsilon(s8,s9);
-      sm.SetEpsilon(s9,s8);
-      sm.SetTransition(s8,'a',s9);
-      sm.SetTransition(s9,'b',s10);
-      sm.SetAccept(s10);
-      
-      token_sensors.emplace_back(fsm_entry_t(sm.Nfa2Dfa().Optimize(),ident));
-      // token_sensors.back().first.Optimize();
-    }
-  }
-#endif
-
   //token_t GetToken( void );
   token_t GetToken( void )
   {
+    //cout << "enter get token" << endl;
+    string bad_chars="";
     int32_t best = 0;
     typename list<fsm_entry_t>::iterator best_token;
     for(auto x = token_sensors.begin(); x != token_sensors.end();  ++x) {
       int32_t len = x->first.GetAcceptLength();
+
+      //cout << len << endl;
       if (len > best) {
         best = len;
         best_token = x;
@@ -268,7 +205,15 @@ public:
       for(auto x : char_pipe) StepAll(x);
       return token_t(tk,best_token->second);
     } else {
-      return token_t("bad token", error_ident);
+      //cout << "char_pipe=" << char_pipe.size() << endl;
+      if (char_pipe.size()) {
+        bad_chars.append(1,char_pipe.front());
+        char_pipe.pop_front();
+        Reset();
+        for(auto x : char_pipe) StepAll(x);
+        return token_t(bad_chars, error_ident);
+      }
+      return token_t("@empty", error_ident);
     }
   }
 

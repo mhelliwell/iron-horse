@@ -1,3 +1,29 @@
+/*----------------------------------------------------------------------------\
+|  Copyright 2022 by the ->->->->->->->->->->->->->->->                       |
+|                                                                             |
+|  III  RRRRR    OOOO   N     N      H     H   OOOO   RRRRR    SSSS  EEEEE    |
+|   I   R    R  O    O  NN    N      H     H  O    O  R    R  S      E        |
+|   I   R    R  O    O  N N   N      H     H  O    O  R    R  S      E        |
+|   I   RRRRR   O    O  N  N  N      HHHHHHH  O    O  RRRRR    SSS   EEEE     |
+|   I   R  R    O    O  N   N N      H     H  O    O  R  R        S  E        |
+|   I   R   R   O    O  N    NN      H     H  O    O  R   R       S  E        |
+|  III  R    R   OOOO   N     N      H     H   OOOO   R    R  SSSS   EEEEE    |
+|                                                                             |
+|                                      ->->->->->->->->->->->->->-> project   |
++-----------------------------------------------------------------------------+
+|                                                               _             |
+|                                 _\_____\__        _          | |            |
+|                ================|__________|__!___/ \_________|_|___/^       |
+|    }           |               | |[ ] [ ] |      |        |        |        |
+|    ============|               | |  101   |      |        |        |101{    |
+|    |   I R O N   H O R S E     | |--------|----/ |--------|-_| |_-\\        |
+|    |                           | |      /\|/\  /\|/\  /\|/\|     | \\_      |
+|   @|==============101==========| | /|\ |--o========o=======|_____|/|\\\     |
+|      (o)===(o)        (o)===(o)    \|/  \/|\/  \/|\/  \/|\/       \|/ |\    |
+|                                                                             |
+\____________________________________________________________________________*/
+
+
 
 #include <cstdint>
 
@@ -255,23 +281,17 @@ int main(int argc, char **argv)
   lex::lx_token_t r;
 
   parser pr(lx);
-  lx.OpenFile("test.cf");
+  lx.OpenFile("../../test.cf");
 
 #if 1
-  while(!lx.GetNextLine(str)) {
-    cout << str << std::endl;
-  }
-
   do {
     r = lx.GetToken();
     cout << r << std::endl;
-  } while(r.second);
+  } while(r.first != "@done");
 #endif
 
-  pr.ParseStatement();
+  //pr.ParseStatement();
   return 0;
 }
-
-
 
 

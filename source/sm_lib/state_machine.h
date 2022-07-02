@@ -27,7 +27,18 @@ using std::cout;
 using std::endl;
 
 
+/*-------------------------------------------------------\
+|  III N   N TTTTT EEEE RRRR  FFFF  A    CCC EEEE  SSSS  |
+|   I  NN  N   T   E    R   R F    A A  C    E    S      |
+|   I  N N N   T   EEE  RRRR  FFF AAAAA C    EEE   SSS   |
+|   I  N  NN   T   E    R  R  F   A   A C    E        S  |
+|  III N   N   T   EEEE R   R F   A   A  CCC EEEE SSSS   |
+\_______________________________________________________*/
 
+//-------------------------------------
+//  Base interface for finite state
+//  machines. Contains only typedefs.
+//-------------------------------------
 class fsm
 {
 public:
@@ -39,7 +50,10 @@ private:
 protected:
 };
 
-
+//------------------------------
+//  Interface for classes that
+//  can build state machines
+//------------------------------
 class fsm_builder: public fsm
 {
 public:
@@ -54,7 +68,25 @@ protected:
   
 };
 
+//-----------------------------------
+//  interface for synthesizing code
+//  to implement a statemachine
+//-----------------------------------
+class fsm_synthesizer: public fsm
+{
+public:
+  virtual ret_t  SetTransition(state_t from, letter_t ch, state_t to) = 0;
 
+private:
+
+protected:
+  
+};
+
+//------------------------------
+//  interface for classes that
+//  can run state machines
+//------------------------------
 class fsm_runner: public fsm
 {
 public:
@@ -71,7 +103,18 @@ protected:
 };
 
 
+/*-------------------------------------------------------------------------------------\
+|  III M   M PPPP  L    EEEE M   M EEEE N   N TTTTT   A   TTTTT III  OOO  N   N  SSS   |
+|   I  MM MM P   P L    E    MM MM E    NN  N   T    A A    T    I  O   O NN  N S      |
+|   I  M M M PPPP  L    EEE  M M M EEE  N N N   T   AAAAA   T    I  O   O N N N  SSS   |
+|   I  M   M P     L    E    M   M E    N  NN   T   A   A   T    I  O   O N  NN     S  |
+|  III M   M P     LLLL EEEE M   M EEEE N   N   T   A   A   T   III  OOO  N   N  SSS   |
+\_____________________________________________________________________________________*/
 
+
+//------------------------------------------------
+//  a class that can build and run statemachines
+//------------------------------------------------
 class state_machine: public fsm_builder, public fsm_runner
 {
 public:
@@ -254,7 +297,7 @@ public:
         state_sets[j].insert(st);
         back_map[st]=j;
       }
-#if 0
+#if 1
   cout << "-------------------------------------------------\n";
   for(uint32_t j=0; j < old_state_sets.size(); ++j) {
     cout << j << ": ";
@@ -311,9 +354,11 @@ public:
     for(state_t st : accept_states) {
       sm.SetAccept(back_map[st]);
     }
+#if 1
     cout << "<begin opt>\n";
     cout << sm;
     cout << "<end>\n";
+#endif
     return sm;
   }
 

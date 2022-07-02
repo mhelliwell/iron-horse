@@ -31,6 +31,12 @@ std::ostream & operator << (std::ostream &out, state_machine &sm)
         cout << ")->" << x.first;
       }
     }
+    if (sm.epsilons.find(j) != sm.epsilons.end()) {
+      cout << " {e} ->";
+      for(auto const& x : sm.epsilons[j]) {
+        cout << " " << x;
+      }
+    }
     if (going_to.find(j) != going_to.end()  &&  going_to[j].size() == 256) cout << " [sink]";
     if (sm.accept_states.find(j) != sm.accept_states.end()) cout << " [accept]";
     cout << endl;
